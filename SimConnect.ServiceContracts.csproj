@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ReferencePath>$(SIMCON_ASSEMBLY_FOLDER)</ReferencePath>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{553F8D91-D59A-4A21-9A95-D830313DBE8B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SIM.Connect</RootNamespace>
+    <AssemblyName>SimConnect.ServiceContracts</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="SimConnect.Core" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CallbackContracts\Aircraft\FlightInstrumentations\IFlightInstrumentationProviderCallback.cs" />
+    <Compile Include="CallbackContracts\Aircraft\Fuel\IFuelProviderCallback.cs" />
+    <Compile Include="CallbackContracts\Aircraft\IAircraftProviderCallback.cs" />
+    <Compile Include="CallbackContracts\Aircraft\ElectricalSystems\IElectricalSystemsProviderCallback.cs" />
+    <Compile Include="CallbackContracts\Aircraft\PositionSpeed\IPositionSpeedProviderCallback.cs" />
+    <Compile Include="CallbackContracts\Simconnect\ISimconnectProviderCallback.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceContracts\Aircraft\FlightInstrumentations\IFlightInstrumentationProviderService.cs" />
+    <Compile Include="ServiceContracts\Aircraft\Fuel\IFuelProviderService.cs" />
+    <Compile Include="ServiceContracts\Aircraft\IAircraftProviderService.cs" />
+    <Compile Include="ServiceContracts\Aircraft\ElectricalSystems\IElectricalSystemsProviderService.cs" />
+    <Compile Include="ServiceContracts\Aircraft\PositionSpeed\IPositionSpeedProviderService.cs" />
+    <Compile Include="ServiceContracts\Simconnect\ISimconnectProviderService.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+      xcopy /y $(TargetPath) $(SIMCON_ASSEMBLY_FOLDER)
+      
+      IF NOT EXIST $(SIMCON_RUNTIME_FOLDER)\$(ConfigurationName) (
+      mkdir $(SIMCON_RUNTIME_FOLDER)\$(ConfigurationName)
+      )
+      xcopy /y $(TargetPath) $(SIMCON_RUNTIME_FOLDER)\$(ConfigurationName)\
+
+      IF "$(ConfigurationName)" == "Debug" (
+      xcopy /y $(TargetDir)$(TargetName).pdb $(SIMCON_RUNTIME_FOLDER)\$(ConfigurationName)\
+      )
+</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
